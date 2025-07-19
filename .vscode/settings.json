@@ -19,5 +19,10 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always", // Automatically fixes ESLint fixable issues (change thsi to always if when needed)
+    "source.organizeImports": "always", // Organizes imports on save
+    "source.formatDocument": "always"
+  }
 }

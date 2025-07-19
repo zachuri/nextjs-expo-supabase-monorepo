@@ -8,7 +8,7 @@ export default function Page() {
       <Header />
       <main className="flex-1 flex items-center justify-center">
         <WelcomeCard />
-      </main>{' '}
+      </main>
       <Footer />
     </div>
   );
