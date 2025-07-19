@@ -64,7 +64,6 @@ bun ui:add:component <component-name>
 graph TD
     A[Turborepo] --> B[Apps]
     A --> C[Packages]
-    B --> D[@repo/docs]
     B --> E[@repo/web]
     B --> F[@repo/storybook]
     C --> G[@repo/ui]
@@ -74,9 +73,8 @@ graph TD
 
 | App/Package | Description |
 |-------------|-------------|
-| `@repo/docs` | Documentation site powered by [Nextra 3 alpha](https://the-guild.dev/blog/nextra-3) 📖 |
 | `@repo/web` | Main Next.js web application 🌐 |
-| `@repo/ui` | Core React components and design system shared by both `web` and `docs` applications (powered by shadcn/ui) 🎨 |
+| `@repo/ui` | Core React components and design system shared by applications (powered by shadcn/ui) 🎨 |
 | `@repo/utils` | Shared React utilities 🛠️ |
 | `@repo/tsconfig` | Shared `tsconfig.json` configurations 🛡️ |
 
