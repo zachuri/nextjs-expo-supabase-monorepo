@@ -1,5 +1,6 @@
 import Footer from '@/app/components/Footer';
 import Header from '@/app/components/Header';
+
 import WelcomeCard from '@/app/components/WelcomeCard';
 
 export default function Page() {

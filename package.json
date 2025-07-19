@@ -41,7 +41,7 @@
     "deps:update": "bun x npm-check-updates -ui -ws"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "^2.1.2",
     "@changesets/cli": "2.27.12",
     "@playwright/test": "1.49.1",
     "@vitest/coverage-v8": "2.1.8",
@@ -54,6 +54,13 @@
     "node": ">=18"
   },
   "packageManager": "bun@1.1.17",
-  "workspaces": ["apps/*", "packages/*"],
-  "trustedDependencies": ["@biomejs/biome", "esbuild", "lefthook"]
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "esbuild",
+    "lefthook"
+  ]
 }
