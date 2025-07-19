@@ -5,7 +5,6 @@ const config = {
   content: [
     './src/**/*.{ts,tsx,md,mdx}',
     '../../packages/ui/src/**/*.{ts,tsx}',
-    '../../apps/test/src/**/*.{ts,tsx,md,mdx}',
     '../../apps/web/src/**/*.{ts,tsx,md,mdx}',
     '../../apps/storybook/src/**/*.{ts,tsx,md,mdx}',
     '../../apps/storybook/.storybook/**/*.{js,ts,jsx,tsx}',

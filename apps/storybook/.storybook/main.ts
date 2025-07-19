@@ -5,7 +5,6 @@ const config: StorybookConfig = {
   stories: [
     '../src/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    '../../../apps/test/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../../../apps/web/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../../../packages/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
@@ -48,7 +47,6 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@repo/ui': path.resolve(__dirname, '../../../packages/ui/src'),
-        '@repo/test': path.resolve(__dirname, '../../../apps/test/src'),
         '@repo/web': path.resolve(__dirname, '../../../apps/web/src'),
       };
     }
