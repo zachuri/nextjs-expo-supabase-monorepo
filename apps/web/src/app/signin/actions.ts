@@ -4,7 +4,7 @@ import { createClient } from '@utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-export async function login(formData: FormData) {
+export async function signin(formData: FormData) {
   const supabase = await createClient();
 
   // type-casting here for convenience
@@ -43,3 +43,14 @@ export async function signup(formData: FormData) {
   revalidatePath('/', 'layout');
   redirect('/');
 }
+
+// export async function signInWithOAuth({ provider } : { providers: EAuthProviders}) {
+//   const supabase = createClient();
+
+//   await supabase.auth.signInWithOAuth({
+//     provider: 'google',
+//     options: {
+//       redirectTo: `${location.origin}/api/auth/confirm`,
+//     },
+//   });
+// }
