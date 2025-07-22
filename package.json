@@ -39,8 +39,13 @@
     "test:cov:ui": "turbo test:cov:ui",
     "deps:fix": "manypkg fix",
     "deps:update": "bun x npm-check-updates -ui -ws",
-    "supabase:start": "supabase start",
-    "supabase:stop": "supabase stop"
+    "supabase:start": "turbo start --filter=@repo/supabase",
+    "supabase:stop": "turbo stop --filter=@repo/supabase",
+    "supabase:status": "turbo status --filter=@repo/supabase",
+    "supabase:reset": "turbo reset --filter=@repo/supabase",
+    "supabase:restart": "turbo restart --filter=@repo/supabase",
+    "supabase:logs": "turbo logs --filter=@repo/supabase",
+    "supabase:gen:types": "turbo gen:types --filter=@repo/supabase"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",

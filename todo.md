@@ -2,11 +2,13 @@
 
 - [ ] project wil be name acme
 
-- [ ] set t3 env
-- [ ] supabase setup
-  - [ ] setup locally 
+- [x] set t3 env
+- [x] supabase setup
+  - [x] setup locally 
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
+- [ ] oauth
+- [ ] password
   ```
   Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
 

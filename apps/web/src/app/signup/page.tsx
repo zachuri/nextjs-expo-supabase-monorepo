@@ -11,48 +11,63 @@ import {
 import { Input } from '@ui/components/ui/input';
 import { Label } from '@ui/components/ui/label';
 import { Separator } from '@ui/components/ui/separator';
-import { Eye, EyeOff, Loader2, Mail } from 'lucide-react';
+import { Eye, EyeOff, Loader2, User } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
 
-export default function SignInPage() {
+export default function SignUpPage() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isAppleLoading, setIsAppleLoading] = useState(false);
 
-  const handleEmailSignIn = (e: React.FormEvent) => {
+  const handleEmailSignUp = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    if (!agreeToTerms) {
+      alert('Please agree to the terms and conditions');
+      return;
+    }
+
     setIsLoading(true);
 
     // Simulate loading
     setTimeout(() => {
-      console.log('Email sign in:', { email, password });
-      alert(`Sign in attempt with email: ${email}`);
+      console.log('Email sign up:', { name, email, password });
+      alert(`Sign up attempt with email: ${email}`);
       setIsLoading(false);
     }, 1500);
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignUp = () => {
     setIsGoogleLoading(true);
 
     // Simulate loading
     setTimeout(() => {
-      console.log('Google sign in clicked');
-      alert('Google sign in clicked');
+      console.log('Google sign up clicked');
+      alert('Google sign up clicked');
       setIsGoogleLoading(false);
     }, 1000);
   };
 
-  const handleAppleSignIn = () => {
+  const handleAppleSignUp = () => {
     setIsAppleLoading(true);
 
     // Simulate loading
     setTimeout(() => {
-      console.log('Apple sign in clicked');
-      alert('Apple sign in clicked');
+      console.log('Apple sign up clicked');
+      alert('Apple sign up clicked');
       setIsAppleLoading(false);
     }, 1000);
   };
@@ -62,19 +77,19 @@ export default function SignInPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
-            Sign in
+            Create account
           </CardTitle>
           <CardDescription className="text-center">
-            Choose your preferred sign in method
+            Choose your preferred sign up method
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Social Sign In Buttons */}
+          {/* Social Sign Up Buttons */}
           <div className="space-y-2">
             <Button
               variant="outline"
               className="w-full bg-transparent"
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignUp}
               disabled={isGoogleLoading}
             >
               {isGoogleLoading ? (
@@ -106,7 +121,7 @@ export default function SignInPage() {
             <Button
               variant="outline"
               className="w-full bg-transparent"
-              onClick={handleAppleSignIn}
+              onClick={handleAppleSignUp}
               disabled={isAppleLoading}
             >
               {isAppleLoading ? (
@@ -137,7 +152,20 @@ export default function SignInPage() {
           </div>
 
           {/* Email/Password Form */}
-          <form onSubmit={handleEmailSignIn} className="space-y-4">
+          <form onSubmit={handleEmailSignUp} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -150,13 +178,14 @@ export default function SignInPage() {
                 disabled={isLoading}
               />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -180,47 +209,88 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  className="pr-10"
+                  disabled={isLoading}
                 />
-                <Label htmlFor="remember" className="text-sm font-normal">
-                  Remember me
-                </Label>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  disabled={isLoading}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </Button>
               </div>
-              <button
-                type="button"
-                className="text-sm text-primary hover:underline"
-                onClick={() => alert('Forgot password clicked')}
-              >
-                Forgot password?
-              </button>
+            </div>
+
+            <div className="flex items-start space-x-2">
+              <input
+                id="terms"
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mt-1"
+                checked={agreeToTerms}
+                onChange={(e) => setAgreeToTerms(e.target.checked)}
+              />
+              <Label htmlFor="terms" className="text-sm font-normal leading-5">
+                I agree to the{' '}
+                <Button
+                  type="button"
+                  onClick={() => alert('Terms of Service clicked')}
+                >
+                  Terms of Service
+                </Button>{' '}
+                and{' '}
+                <Button
+                  type="button"
+                  onClick={() => alert('Privacy Policy clicked')}
+                >
+                  Privacy Policy
+                </Button>
+              </Label>
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in...
+                  Creating account...
                 </>
               ) : (
                 <>
-                  <Mail className="mr-2 h-4 w-4" />
-                  Sign in with Email
+                  <User className="mr-2 h-4 w-4" />
+                  Create Account
                 </>
               )}
             </Button>
           </form>
 
-          {/* Sign Up Link */}
+          {/* Sign In Link */}
           <div className="text-center text-sm">
             <span className="text-muted-foreground">
-              {"Don't have an account? "}
+              Already have an account?{' '}
             </span>
-            <Button onClick={() => alert('Sign up clicked')}>Sign up</Button>
+            <Button
+              // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+              onClick={() => (window.location.href = '/signin')}
+            >
+              Sign in
+            </Button>
           </div>
         </CardContent>
       </Card>
