@@ -1,5 +1,6 @@
 'use client';
 
+import { EAuthProviders } from '@types';
 import { Button } from '@ui/components/ui/button';
 import {
   Card,
@@ -14,6 +15,7 @@ import { Separator } from '@ui/components/ui/separator';
 import { Eye, EyeOff, Loader2, Mail } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
+import { signInWithOAuth, signin } from './actions';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -35,15 +37,8 @@ export default function SignInPage() {
     }, 1500);
   };
 
-  const handleGoogleSignIn = () => {
-    setIsGoogleLoading(true);
-
-    // Simulate loading
-    setTimeout(() => {
-      console.log('Google sign in clicked');
-      alert('Google sign in clicked');
-      setIsGoogleLoading(false);
-    }, 1000);
+  const handleGoogleSignIn = async () => {
+    await signInWithOAuth({ provider: EAuthProviders.GOOGLE });
   };
 
   const handleAppleSignIn = () => {

@@ -1,7 +1,9 @@
 'use server';
 
+import type { EAuthProviders } from '@types';
 import { createClient } from '@utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export async function signin(formData: FormData) {
@@ -44,13 +46,27 @@ export async function signup(formData: FormData) {
   redirect('/');
 }
 
-// export async function signInWithOAuth({ provider } : { providers: EAuthProviders}) {
-//   const supabase = createClient();
+export async function signInWithOAuth({
+  provider,
+}: {
+  provider: EAuthProviders;
+}) {
+  const supabase = await createClient();
+  const headersList = await headers();
+  const origin = headersList.get('origin') || 'http://localhost:3000';
 
-//   await supabase.auth.signInWithOAuth({
-//     provider: 'google',
-//     options: {
-//       redirectTo: `${location.origin}/api/auth/confirm`,
-//     },
-//   });
-// }
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    redirect('/error');
+  }
+
+  if (data.url) {
+    redirect(data.url);
+  }
+}

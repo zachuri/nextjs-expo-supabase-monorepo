@@ -7,6 +7,11 @@
   - [x] setup locally 
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
+  - [ ] google
+    - [ ] enable config
+    - [ ] test 
+  - [ ] apple
+  - [ ] email
 - [ ] oauth
 - [ ] password
   ```
