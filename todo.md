@@ -11,10 +11,11 @@
   - [x] google
     - [Get Google OAuth with NextJS and Supabase working locally
 ](https://medium.com/@olliedoesdev/nextjs-supabase-google-oauth-on-localhost-0fe8b6341785)
+  - [ ] make notes and take pictures of setup
     - [ ] enable config
     - [ ] test 
   - [ ] apple
-  - [ ] email
+  - [x] email
 - [ ] oauth
 - [ ] password
   ```
@@ -26,6 +27,7 @@
 
   It's safe to trust getUser() because it sends a request to the Supabase Auth server every time to revalidate the Auth token.
   ```
+- [ ] setup supabase .env secrets vault setup
 
 - [ ] test if testing works
 - [ ] maybe add nextra (blog)
