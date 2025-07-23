@@ -8,7 +8,9 @@
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
   - [ ] [supabase-auth-jwt](https://www.youtube.com/watch?v=rwnOal_xRtM)
-  - [ ] google
+  - [x] google
+    - [Get Google OAuth with NextJS and Supabase working locally
+](https://medium.com/@olliedoesdev/nextjs-supabase-google-oauth-on-localhost-0fe8b6341785)
     - [ ] enable config
     - [ ] test 
   - [ ] apple
