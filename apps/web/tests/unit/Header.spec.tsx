@@ -11,7 +11,7 @@ vi.mock('next/dynamic', () => ({
   },
 }));
 
-vi.mock('@/app/components/icons/MountainIcon', () => ({
+vi.mock('@/components/icons/MountainIcon', () => ({
   __esModule: true,
   default: () => <div data-testid="mountain-icon">MountainIcon</div>,
 }));
