@@ -52,7 +52,7 @@ export async function signInWithOAuth({
 }) {
   const supabase = await createClient();
   const headersList = await headers();
-  const origin = headersList.get('origin') || 'http://localhost:3000';
+  const origin = headersList.get('origin') || 'http://localhost:4000';
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,

@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { EAuthProviders } from '@types';
 import { Button } from '@ui/components/ui/button';
 import {
   Card,
@@ -26,7 +27,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
-import { signup } from '@/actions/auth';
+import { signInWithOAuth, signup } from '@/actions/auth';
 
 const signUpSchema = z
   .object({
@@ -78,12 +79,16 @@ export default function SignUpPage() {
     }
   };
 
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp = async () => {
     setIsGoogleLoading(true);
-    setTimeout(() => {
-      alert('Google sign up clicked');
-      setIsGoogleLoading(false);
-    }, 1000);
+    try {
+      await signInWithOAuth({ provider: EAuthProviders.GOOGLE });
+    } catch (error) {
+      console.error('Sign in error with Google:', error);
+      toast.error('Sign in error with Google');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAppleSignUp = () => {
