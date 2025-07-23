@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { EAuthProviders } from '@types';
 import { Button } from '@ui/components/ui/button';
 import {
@@ -9,36 +10,65 @@ import {
   CardHeader,
   CardTitle,
 } from '@ui/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@ui/components/ui/form';
 import { Input } from '@ui/components/ui/input';
-import { Label } from '@ui/components/ui/label';
 import { Separator } from '@ui/components/ui/separator';
 import { Eye, EyeOff, Loader2, Mail } from 'lucide-react';
-import type React from 'react';
+import Link from 'next/link';
 import { useState } from 'react';
-import { signInWithOAuth, signin } from './actions';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { signInWithOAuth, signin } from '@/actions/auth';
+
+const signInSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+type SignInForm = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isAppleLoading, setIsAppleLoading] = useState(false);
 
-  const handleEmailSignIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const form = useForm<SignInForm>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-    // Simulate loading
-    setTimeout(() => {
-      console.log('Email sign in:', { email, password });
-      alert(`Sign in attempt with email: ${email}`);
+  const handleEmailSignIn = async (data: SignInForm) => {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      await signin(formData);
+    } catch (error) {
+      console.error('Sign in error:', error);
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleGoogleSignIn = async () => {
-    await signInWithOAuth({ provider: EAuthProviders.GOOGLE });
+    setIsGoogleLoading(true);
+    try {
+      await signInWithOAuth({ provider: EAuthProviders.GOOGLE });
+    } catch (error) {
+      console.error('Google sign in error:', error);
+      setIsGoogleLoading(false);
+    }
   };
 
   const handleAppleSignIn = () => {
@@ -132,90 +162,110 @@ export default function SignInPage() {
           </div>
 
           {/* Email/Password Form */}
-          <form onSubmit={handleEmailSignIn} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isLoading}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleEmailSignIn)}
+              className="space-y-4"
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="pr-10"
-                  disabled={isLoading}
-                />
-                <Button
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Enter your password"
+                          className="pr-10"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                          disabled={isLoading}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <input
+                    id="remember"
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <label htmlFor="remember" className="text-sm font-normal">
+                    Remember me
+                  </label>
+                </div>
+                <button
                   type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
+                  className="text-sm text-primary hover:underline"
+                  onClick={() => alert('Forgot password clicked')}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
+                  Forgot password?
+                </button>
               </div>
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                />
-                <Label htmlFor="remember" className="text-sm font-normal">
-                  Remember me
-                </Label>
-              </div>
-              <button
-                type="button"
-                className="text-sm text-primary hover:underline"
-                onClick={() => alert('Forgot password clicked')}
-              >
-                Forgot password?
-              </button>
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                <>
-                  <Mail className="mr-2 h-4 w-4" />
-                  Sign in with Email
-                </>
-              )}
-            </Button>
-          </form>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Sign in with Email
+                  </>
+                )}
+              </Button>
+            </form>
+          </Form>
 
           {/* Sign Up Link */}
           <div className="text-center text-sm">
             <span className="text-muted-foreground">
               {"Don't have an account? "}
             </span>
-            <Button onClick={() => alert('Sign up clicked')}>Sign up</Button>
+            <Link href="/signup">
+              <Button>Sign up</Button>
+            </Link>
           </div>
         </CardContent>
       </Card>

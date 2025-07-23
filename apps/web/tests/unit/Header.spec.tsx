@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import Header from '@/app/components/Header';
+import Header from '@/components/Header';
 
 vi.mock('next/dynamic', () => ({
   __esModule: true,

@@ -5,6 +5,7 @@ import { createClient } from '@utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import type { SignUpForm } from '@/app/(auth)/signup/page';
 
 export async function signin(formData: FormData) {
   const supabase = await createClient();
@@ -26,20 +27,18 @@ export async function signin(formData: FormData) {
   redirect('/');
 }
 
-export async function signup(formData: FormData) {
+export async function signup({ email, password }: SignUpForm) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email,
+    password,
   };
 
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
-    redirect('/error');
+    return error;
   }
 
   revalidatePath('/', 'layout');
@@ -69,4 +68,10 @@ export async function signInWithOAuth({
   if (data.url) {
     redirect(data.url);
   }
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect('/signin');
 }

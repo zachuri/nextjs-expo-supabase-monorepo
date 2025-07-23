@@ -7,6 +7,7 @@
   - [x] setup locally 
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
+  - [ ] [supabase-auth-jwt](https://www.youtube.com/watch?v=rwnOal_xRtM)
   - [ ] google
     - [ ] enable config
     - [ ] test 
