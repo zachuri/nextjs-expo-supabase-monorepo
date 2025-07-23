@@ -1,7 +1,7 @@
-import Footer from '@/app/components/Footer';
-import Header from '@/app/components/Header';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
-import WelcomeCard from '@/app/components/WelcomeCard';
+import WelcomeCard from '@/components/WelcomeCard';
 
 export default function Page() {
   return (

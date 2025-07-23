@@ -1,5 +1,5 @@
 {
-  "name": "turborepo-next-shadcn-ui",
+  "name": "acme",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -38,7 +38,14 @@
     "test:cov": "turbo test:cov",
     "test:cov:ui": "turbo test:cov:ui",
     "deps:fix": "manypkg fix",
-    "deps:update": "bun x npm-check-updates -ui -ws"
+    "deps:update": "bun x npm-check-updates -ui -ws",
+    "supabase:start": "turbo run start --filter=@repo/supabase",
+    "supabase:stop": "turbo run stop --filter=@repo/supabase",
+    "supabase:status": "turbo run status --filter=@repo/supabase",
+    "supabase:reset": "turbo run reset --filter=@repo/supabase",
+    "supabase:restart": "turbo run restart --filter=@repo/supabase",
+    "supabase:logs": "turbo run logs --filter=@repo/supabase",
+    "supabase:gen:types": "turbo run gen:types --filter=@repo/supabase"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",
@@ -62,5 +69,9 @@
     "@biomejs/biome",
     "esbuild",
     "lefthook"
-  ]
+  ],
+  "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.52.0"
+  }
 }

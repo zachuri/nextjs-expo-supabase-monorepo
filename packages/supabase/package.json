@@ -1,0 +1,19 @@
+{
+  "name": "@repo/supabase",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "supabase start",
+    "stop": "supabase stop",
+    "status": "supabase status",
+    "reset": "supabase db reset",
+    "restart": "supabase stop && supabase start",
+    "logs": "supabase logs",
+    "db:push": "supabase db push",
+    "db:pull": "supabase db pull",
+    "gen:types": "supabase gen types typescript --local > ../types/src/supabase.ts"
+  },
+  "devDependencies": {
+    "supabase": ">=1.8.1"
+  }
+}
