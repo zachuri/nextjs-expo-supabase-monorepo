@@ -177,6 +177,51 @@ It comes preconfigured with the following workflow that runs on every push or pu
 5. **E2E Tests**: Installs Playwright browsers and runs end-to-end tests using [Playwright](https://playwright.dev/).
 6. **Lint**: Performs linting and formatting checks using [Biome](https://biomejs.dev/).
 
+### CI environment variables (Supabase)
+
+The web app requires Supabase env vars at build time. Configure them in GitHub Actions:
+
+- Required repository secrets:
+  - NEXT_PUBLIC_SUPABASE_URL
+  - NEXT_PUBLIC_SUPABASE_ANON_KEY
+- Optional repository variable:
+  - NEXT_PUBLIC_URL (defaults to `http://localhost:4000` in CI if not set)
+
+Add these in:
+- Settings → Secrets and variables → Actions → Secrets → New repository secret
+- Settings → Secrets and variables → Actions → Variables (for non-secret values)
+
+The workflow reads them like this:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_URL || 'http://localhost:4000' }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Build
+        run: bun run build
+      - name: Run unit tests
+        run: bun run test
+      - name: Lint
+        run: bun run lint
+```
+
+Notes:
+- Secrets are not available to workflows triggered from forks. Consider:
+  - Skipping builds for fork PRs,
+  - Using non-secret repo Variables for fork builds (e.g. sandbox keys),
+  - Or `pull_request_target` with caution.
+
 ### Automated Dependency Management & Contributor Recognition 🤖
 
 This template includes some useful automation tools:
