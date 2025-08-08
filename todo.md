@@ -11,14 +11,14 @@
   - [x] google
     - [Get Google OAuth with NextJS and Supabase working locally
 ](https://medium.com/@olliedoesdev/nextjs-supabase-google-oauth-on-localhost-0fe8b6341785)
+  - [ ] apple auth
+  - [x] email
   - [ ] make notes and take pictures of setup
     - [ ] enable config
     - [ ] test 
-  - [ ] apple
-  - [x] email
   - avatar image get user
-- [ ] oauth
-- [ ] password
+- [x] oauth
+- [x] password
   ```
   Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
 
