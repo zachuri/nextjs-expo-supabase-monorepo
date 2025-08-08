@@ -2,22 +2,29 @@
 
 - [ ] project wil be name acme
 
+## Auth
+
+- [ ] JWT
+  - [ ] [supabase-auth-jwt](https://www.youtube.com/watch?v=rwnOal_xRtM)
+  - [x] setup migration
+  - [ ] wait for local development article/tutorial to be setup (doesn't look like yet - 08/07/2025)
+
 - [x] set t3 env
 - [x] supabase setup
   - [x] setup locally 
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
-  - [ ] [supabase-auth-jwt](https://www.youtube.com/watch?v=rwnOal_xRtM)
   - [x] google
     - [Get Google OAuth with NextJS and Supabase working locally
 ](https://medium.com/@olliedoesdev/nextjs-supabase-google-oauth-on-localhost-0fe8b6341785)
+  - [ ] apple auth
+  - [x] email
   - [ ] make notes and take pictures of setup
     - [ ] enable config
     - [ ] test 
-  - [ ] apple
-  - [x] email
-- [ ] oauth
-- [ ] password
+  - avatar image get user
+- [x] oauth
+- [x] password
   ```
   Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
 

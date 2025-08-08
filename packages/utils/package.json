@@ -16,6 +16,10 @@
     "lint:fix": "biome check --write .",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
+  "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.52.0"
+  },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
     "@types/react": "19.0.2",
