@@ -16,6 +16,7 @@
     - [ ] test 
   - [ ] apple
   - [x] email
+  - avatar image get user
 - [ ] oauth
 - [ ] password
   ```

@@ -39,8 +39,11 @@ export default function Header() {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="cursor-pointer rounded-full">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            {/* TODO: Get user avatar from supabase */}
+            <AvatarImage src="" />
+            <AvatarFallback>
+              <User className="h-4 w-4" />
+            </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
