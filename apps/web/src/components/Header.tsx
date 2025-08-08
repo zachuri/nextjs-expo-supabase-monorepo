@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@repo/ui/components/ui/dropdown-menu';
+import { useUser } from '@repo/utils/src/supabase/useUser';
 import {
   LogOut,
   Moon,
@@ -24,11 +25,11 @@ import {
 import Link from 'next/link';
 import { useTheme } from 'next-app-theme/use-theme';
 import { signOut } from '@/actions/auth';
-
 import MountainIcon from '@/components/icons/MountainIcon';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const { email: userEmail } = useUser();
 
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center justify-between border-b">
@@ -47,7 +48,16 @@ export default function Header() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-0.5">
+              <span className="text-sm font-medium leading-none">
+                My Account
+              </span>
+              <span className="text-xs leading-none text-muted-foreground">
+                {userEmail ?? 'Signed out'}
+              </span>
+            </div>
+          </DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
               <Link href="/profile" className="flex items-center gap-2">
