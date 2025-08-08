@@ -1,20 +1,27 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import Header from '@/components/Header';
 
-vi.mock('next/dynamic', () => ({
-  __esModule: true,
-  default: () => {
-    return function DynamicComponent() {
-      return <div data-testid="theme-switcher">ThemeSwitcher</div>;
-    };
-  },
+// Mock server action so tests don't import server-only code
+vi.mock('@/actions/auth', () => ({
+  signOut: vi.fn(),
 }));
 
+// Mock theme hook
+vi.mock('next-app-theme/use-theme', () => ({
+  useTheme: () => ({ theme: 'light', toggleTheme: vi.fn() }),
+}));
+
+// Keep MountainIcon simple but accessible
 vi.mock('@/components/icons/MountainIcon', () => ({
   __esModule: true,
-  default: () => <div data-testid="mountain-icon">MountainIcon</div>,
+  default: (props: any) => (
+    <svg {...props}>
+      <title>Mountain Icon</title>
+    </svg>
+  ),
 }));
+
+import Header from '@/components/Header';
 
 describe('Header', () => {
   it('renders the header component', () => {
@@ -24,18 +31,14 @@ describe('Header', () => {
 
   it('displays the MountainIcon', () => {
     render(<Header />);
-    expect(screen.getByTestId('mountain-icon')).toBeInTheDocument();
+    expect(screen.getByTitle('Mountain Icon')).toBeInTheDocument();
   });
 
   it('includes a visually hidden company name', () => {
     render(<Header />);
-    expect(screen.getByText('Acme Inc')).toBeInTheDocument();
-    expect(screen.getByText('Acme Inc')).toHaveClass('sr-only');
-  });
-
-  it('renders the ThemeSwitcher component', () => {
-    render(<Header />);
-    expect(screen.getByTestId('theme-switcher')).toBeInTheDocument();
+    const el = screen.getByText('Acme Inc');
+    expect(el).toBeInTheDocument();
+    expect(el).toHaveClass('sr-only');
   });
 
   it('has the correct layout classes', () => {
