@@ -32,3 +32,5 @@
 
 - [ ] test if testing works
 - [ ] maybe add nextra (blog)
+
+- [ ] setup mobile development with react native reusables 
